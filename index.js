@@ -10,6 +10,7 @@ function getGameBoard() {
     for (var i = 0; i < 3; i++) {
         for (var j = 0; j < 3; j++) {
             result.push(gameBoardTable.rows[i].cells[j]);
+            
         }
     }
     return result;
@@ -56,19 +57,19 @@ function newGame() {
 }
 
 function cellClicked(cell) {
+    winnerCheckO();
+    winnerCheckX();
     // Your code here
     if (playerTurn == true) {
         if (cell.innerHTML == "X" || cell.innerHTML == "O") {
             playerTurn = false;
-            winnerCheckO();
-            winnerCheckX();
+            
             switchTurn();
         }
         else {
             cell.innerHTML = "X";
             cell.style.color = "red";
-            winnerCheckO();
-            winnerCheckX();
+            
             switchTurn();
         }
     }
@@ -76,23 +77,44 @@ function cellClicked(cell) {
 
 function switchTurn() {
     // Your code here
+    winnerCheckO();
+    winnerCheckX();
     var f = document.getElementById("turnInfo");
     if (playerTurn == false) {
-        f.innerHTML = "Your Turn";
-        playerTurn = true;
-        winnerCheckO();
-        winnerCheckX();
+        if (f.innerHTML == "Draw game"|| f.innerHTML == "You Win!" || f.innerHTML =="Computer wins!") {
+            setTimeout(function(){ 
+                alert(f.innerHTML); 
+                newGame();
+            }, 1000);
+            
+            
+        }
+        else{
+            f.innerHTML = "Your Turn";
+            playerTurn = true;
+        }
+        
+        
+        
 
     }
     else {
-        winnerCheckO();
-        winnerCheckX();
-        if (f.innerHTML != "Draw game") {
+        
+        if (f.innerHTML == "Draw game"|| f.innerHTML == "You Win!" || f.innerHTML =="Computer wins!") {
+            setTimeout(function(){ 
+                alert(f.innerHTML); 
+                newGame();
+            }, 1000);
+            
+            
+        }
+        else{
+            
             f.innerHTML = "Computer's turn";
             playerTurn = false;
             computerMoveTimeout = setTimeout(makeComputerMove, 1000);
         }
-        playerTurn = false;
+        
     }
 }
 
@@ -224,8 +246,8 @@ function markCell() {
 function winnerCheckX() {
     //all are full so tie game
     var x = document.getElementById("gameBoard").rows[0].cells;
-    var z = document.getElementById("gameBoard").rows[1].cells;
-    var y = document.getElementById("gameBoard").rows[2].cells;
+    var y = document.getElementById("gameBoard").rows[1].cells;
+    var z = document.getElementById("gameBoard").rows[2].cells;
     var f = document.getElementById("turnInfo");
     if (x[0].innerHTML != "&nbsp;" && x[1].innerHTML != "&nbsp;" && x[2].innerHTML != "&nbsp;" && y[0].innerHTML != "&nbsp;" && y[1].innerHTML != "&nbsp;" && y[2].innerHTML != "&nbsp;" && z[0].innerHTML != "&nbsp;" && z[1].innerHTML != "&nbsp;" && z[2].innerHTML != "&nbsp;") {
         f.innerHTML = "Draw game";
@@ -248,10 +270,10 @@ function winnerCheckX() {
     if (x[2].innerHTML == "X" && y[2].innerHTML == "X" && z[2].innerHTML == "X") {
         f.innerHTML = "You Win!";
     }
-    if (x[0].innerHTML == "X" && z[1].innerHTML == "X" && y[2].innerHTML == "X") {
+    if (x[0].innerHTML == "X" && y[1].innerHTML == "X" && z[2].innerHTML == "X") {
         f.innerHTML = "You Win!";
     }
-    if (x[2].innerHTML == "X" && z[1].innerHTML == "X" && y[0].innerHTML == "X") {
+    if (x[2].innerHTML == "X" && y[1].innerHTML == "X" && z[0].innerHTML == "X") {
         f.innerHTML = "You Win!";
     }
 }
@@ -259,8 +281,8 @@ function winnerCheckX() {
 function winnerCheckO() {
     //all are full so tie game
     var x = document.getElementById("gameBoard").rows[0].cells;
-    var z = document.getElementById("gameBoard").rows[1].cells;
-    var y = document.getElementById("gameBoard").rows[2].cells;
+    var y = document.getElementById("gameBoard").rows[1].cells;
+    var z = document.getElementById("gameBoard").rows[2].cells;
     var f = document.getElementById("turnInfo");
     if (x[0].innerHTML != "&nbsp;" && x[1].innerHTML != "&nbsp;" && x[2].innerHTML != "&nbsp;" && y[0].innerHTML != "&nbsp;" && y[1].innerHTML != "&nbsp;" && y[2].innerHTML != "&nbsp;" && z[0].innerHTML != "&nbsp;" && z[1].innerHTML != "&nbsp;" && z[2].innerHTML != "&nbsp;") {
         f.innerHTML = "Draw game";
@@ -283,10 +305,10 @@ function winnerCheckO() {
     if (x[2].innerHTML == "O" && y[2].innerHTML == "O" && z[2].innerHTML == "O") {
         f.innerHTML = "Computer wins!";
     }
-    if (x[0].innerHTML == "O" && z[1].innerHTML == "O" && y[2].innerHTML == "O") {
+    if (x[0].innerHTML == "O" && y[1].innerHTML == "O" && z[2].innerHTML == "O") {
         f.innerHTML = "Computer wins!";
     }
-    if (x[2].innerHTML == "O" && z[1].innerHTML == "O" && y[0].innerHTML == "O") {
+    if (x[2].innerHTML == "O" && y[1].innerHTML == "O" && z[0].innerHTML == "O") {
         f.innerHTML = "Computer wins!";
     }
 }
